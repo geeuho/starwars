@@ -3,15 +3,16 @@
 <head>
 	<title> STAR WARS RPG </title>
   	<meta charset="UTF-8">
-  	<title>Basic JavaScript Dump</title>
+  	
 
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 	<link rel="stylesheet"></link>
 </head>
 
 <body>
 
-	<h1> Star Wars RPG! </h1>
+	<h1> Star Wars RPG </h1>
 		<h2> Choose your hero! </h2>
 		<div id = choose>
 			<button class = "hero" id = "obi">
@@ -19,7 +20,7 @@
 				style="width:150px;height:150px">
 			</button>
 			
-			<button class = "hero" id = "quigon">
+			<button class = "hero" id = "qui">
 				<img src= ./assets/images/quigone.jpg
 				style="width:150px;height:150px;border:0">
 			</button>
@@ -55,7 +56,7 @@
 var obi = 1;
 var obihp = 150;
 var obiatk = 15;
-var obicounter = 4
+var obicounter = 4;
 
 var qui = 2;
 var quihp = 140;
@@ -74,143 +75,84 @@ var anakincounter= 8;
 
 
 
-var attackHTML = $("#fightbutton")
 
 var obiHTML = $("#obi");
-var quiHTML = $("#quigon");
+var quiHTML = $("#qui");
 var dookuHTML = $("#dooku");
 var anakinHTML = $("#anakin");
 var chosenoneHTML = $("#chosenone");
 var enemyHTML = $("#enemies");
 var defenderHTML = $("#defender");
 
-obiHTML.bind("click", choosehero);
-quiHTML.bind("click", choosehero);
-dookuHTML.bind("click", choosehero);
-anakinHTML.bind("click", choosehero);
+
 
 //HANDLE EVENTS
 
-const heroes = [obiHTML, quiHTML, anakinHTML, dookuHTML];
-const chosenone = [];
-const chosenonearray = [];
-const enemies = [];
-const enemyarray = [];
-const defender = [];
-const defenderarray = [];
 
+var chosenone = [];
+var chosenonearray = [];
+var enemyarray = [];
+var defender = [];
+var defenderarray = [];
+var heroes = [obiHTML, quiHTML, anakinHTML, dookuHTML];
 
+//$("#choose button")
+
+$(".hero").on("click", choosehero)
 
 function choosehero(){
-
-	if (this.id === "obi"){
-		chosenone.push(obi);
-		enemies.push(qui, dooku, anakin);
-		chosenonearray.push(obiHTML);
-		enemyarray.push(quiHTML, dookuHTML, anakinHTML);
-		quiHTML.attr("onclick",chooseenemy);
-		quiHTML.removeClass("hero").addClass("defender");
-		dookuHTML.attr("onclick",chooseenemy);
-		dookuHTML.removeClass("hero").addClass("defender");
-		anakinHTML.attr("onclick",chooseenemy);
-		anakinHTML.removeClass("hero").addClass("defender");
-
-	}else if (this.id === "quigon"){
-		chosenone.push(qui);
-		enemies.push(obi, dooku, anakin)
-		chosenonearray.push(quiHTML);
-		enemyarray.push(obiHTML, dookuHTML, anakinHTML);
-		obiHTML.attr("onclick",chooseenemy);
-		obiHTML.removeClass("hero").addClass("defender");
-		dookuHTML.attr("onclick",chooseenemy);
-		dookuHTML.removeClass("hero").addClass("defender");
-		anakinHTML.attr("onclick",chooseenemy);
-		anakinHTML.removeClass("hero").addClass("defender");
-
-	}else if (this.id === "dooku"){
-		chosenone.push(dooku);
-		enemies.push(obi, qui, anakin);
-		chosenonearray.push(dookuHTML);
-		enemyarray.push(obiHTML, quiHTML, anakinHTML);
-		obiHTML.attr("onclick",chooseenemy);
-		obiHTML.removeClass("hero").addClass("defender");	
-		quiHTML.attr("onclick",chooseenemy);
-		quiHTML.removeClass("hero").addClass("defender");
-		anakinHTML.attr("onclick",chooseenemy);
-		anakinHTML.removeClass("hero").addClass("defender");
-
-	}else if (this.id === "anakin"){
-		chosenone.push(anakin);
-		enemies.push(obi,qui,dooku);
-		chosenonearray.push(anakinHTML);
-		enemyarray.push(obiHTML, quiHTML, dookuHTML);
-		obiHTML.attr("onclick",chooseenemy);
-		obiHTML.removeClass("hero").addClass("defender");
-		quiHTML.attr("onclick",chooseenemy);
-		quiHTML.removeClass("hero").addClass("defender");
-		dookuHTML.attr("onclick",chooseenemy);
-		dookuHTML.removeClass("hero").addClass("defender");
-
-	}	
+	$(".hero").attr("class", "enemy");
+	var a = $(this);
+	a.attr("class","chosenone");
+	chosenonearray.push(this);
+	console.log(chosenonearray);
+	console.log(this);
+	console.log(a);
+	
+	var enemies = $(".enemy");
+	enemyarray.push(enemies);
+	console.log(heroes);
+	
 	chosenoneHTML.append(chosenonearray);
 	enemyHTML.append(enemyarray);
-
-}	
-	console.log(chosenonearray);
-	console.log(enemies);
-	console.log(enemyarray.class);
-
-
-
-function chooseenemy(){
-
-	if (this.id === "obi" && this.class === "defender"){
-		defender.push(obi);
-		defenderarray.push(obiHTML);
-		;
-	}else if (this.id === "quigon" && this.class === "defender"){
-		defender.push(quigon);
-		defenderarray.push(quiHTML);
-		;
-	}else if (this.id === "dooku" && this.class === "defender"){
-		defender.push(dooku);
-		defenderarray.push(dookuHTML);
-		;
-	}else if (this.id === "anakin" && this.class === "defender"){
-		defender.push(anakin);
-		defenderarray.push(anakinHTML);
-		;
-	}	
-	defenderHTML.append(defenderarray);
-
-}	
-	console.log(defenderarray);
-	console.log(defender);
-
-
-
+	$(".enemy").prop('onclick',null).off('click');
+	$(".enemy").on("click",function(){
+		if (defenderarray.length === 1){
+			return;
+		}
+		var b = $(this);
+		b.attr("class","defender")
+		var defenders = $(".defender");
+		defenderarray.push(defenders);
+		defenderHTML.append(defenderarray);
+	});
+};
 
 
 	
 
+
+
+
+$("#fightbutton").on("click", fight);
+
+function fight(){
+
+}
+
 </script>
 </html>
-//GAME FUNCTIONS
 
-
-//OBJECT CONSTRUCTOR FUNCTIONS
-
-
-//FUNCTIONS TO UPDATE THE DOM
-
-
-//UTIL FUNCTIONS (filter word object array by available objects)
-
-
-//LOAD NEW WORD
-
-
-//EVENT HANDLER FUNCTIONS
-
-
-//MISC FUNCTIONS
+if (this.id === "obi"){
+	chosenone.push(obi);
+	console.log(chosenone);
+	}else if(this.id === "qui"){
+	chosenone.push(qui);
+	console.log(chosenone);
+	}else if(this.id === "dooku"){
+	chosenone.push(dooku);	
+	console.log(chosenone);
+	}else if(this.id === "anakin"){
+	chosenone.push(anakin);
+	console.log(chosenone);
+	}
